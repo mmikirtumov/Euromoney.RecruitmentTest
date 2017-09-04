@@ -11,20 +11,20 @@ namespace ContentConsole.Test.Unit
         private string _someText;
         private Mock<IBanWordsReader> _mockBanWordsReader;
 
-        private List<string> SomeBannedWordsWithResult
+        private IEnumerable<string> SomeBannedWordsWithResult
         {
             get
             {
-                List<string> someBannedWords = new List<string> {"this", "some"};
+                var someBannedWords = new List<string> {"this", "some"};
                 return someBannedWords;
             }
         }
 
-        private List<string> SomeBannedWordsWithNoResult
+        private IEnumerable<string> SomeBannedWordsWithNoResult
         {
             get
             {
-                List<string> someBannedWords = new List<string> {"risk"};
+                var someBannedWords = new List<string> {"risk"};
                 return someBannedWords;
             }
         }
@@ -37,14 +37,14 @@ namespace ContentConsole.Test.Unit
         }
 
         [Test]
-        public void CountOfBannedWords_TwoBannedWords_ReturnTwo()
+        public void CountOfBannedWords_TwoBannedWords_ReturnsTwo()
         {
             // Arrange
             _mockBanWordsReader.Setup(reader => reader.GetBannedList()).Returns(SomeBannedWordsWithResult);
-            IBannedWordsCounter textViewer = new BannedWordsCounter(_mockBanWordsReader.Object);
+            var textViewer = new BannedWordsCounter(_mockBanWordsReader.Object);
 
             // Act
-            int result = textViewer.CountOfBannedWords(_someText);
+            var result = textViewer.CountOfBannedWords(_someText);
 
             // Assert
             Assert.AreEqual(2, result, "Should return 2 banned words");
@@ -55,15 +55,13 @@ namespace ContentConsole.Test.Unit
         {
             // Arrange
             _mockBanWordsReader.Setup(reader => reader.GetBannedList()).Returns(SomeBannedWordsWithNoResult);
-            IBannedWordsCounter textViewer = new BannedWordsCounter(_mockBanWordsReader.Object);
+            var textViewer = new BannedWordsCounter(_mockBanWordsReader.Object);
 
             // Act
-            int result = textViewer.CountOfBannedWords(_someText);
+            var result = textViewer.CountOfBannedWords(_someText);
 
             // Assert
             Assert.AreEqual(0, result, "Should return 0 banned words");
         }
-
-
     }
 }

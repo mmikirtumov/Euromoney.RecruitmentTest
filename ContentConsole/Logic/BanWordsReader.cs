@@ -15,8 +15,8 @@ namespace ContentConsole.Logic
 
         public IEnumerable<string> GetBannedList()
         {
-            string[] lines = File.ReadAllLines(_filename);
-            IEnumerable<string> result = new List<string>(lines);
+            var lines = File.ReadAllLines(_filename);
+            var result = new List<string>(lines);
 
             return result.Select(res => res.Trim().ToLower());
         }

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
 
 namespace ContentConsole.Logic
 {
@@ -20,15 +20,10 @@ namespace ContentConsole.Logic
                 return content;
             }
 
-            IEnumerable<string> bannedWords = _banWordsReader.GetBannedList();
-            string result = content.ToLower();
+            var bannedWords = _banWordsReader.GetBannedList();
+            var result = content.ToLower();
 
-            foreach(string banWord in bannedWords)
-            {
-               result=result.Replace(banWord, DecoreateBanWord(banWord));
-            }
-
-            return result;
+            return bannedWords.Aggregate(result, (current, banWord) => current.Replace(banWord, DecoreateBanWord(banWord)));
         }
 
         private string DecoreateBanWord(string banWord)

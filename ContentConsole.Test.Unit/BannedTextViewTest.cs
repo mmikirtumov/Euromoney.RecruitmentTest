@@ -18,11 +18,11 @@ namespace ContentConsole.Test.Unit
             _someText = "some banned";
         }
 
-        private List<string> SomeBannedWords
+        private IEnumerable<string> SomeBannedWords
         {
             get
             {
-                List<string> someBannedWords = new List<string> { "some" };
+                var someBannedWords = new List<string> { "some" };
                 return someBannedWords;
             }
         }
@@ -32,10 +32,10 @@ namespace ContentConsole.Test.Unit
         {
             // Arrange
             _mockBanWordsReader.Setup(reader => reader.GetBannedList()).Returns(SomeBannedWords);
-            IBannedTextViewer textViewer = new BannedTextViewer(_mockBanWordsReader.Object, false);
+            var textViewer = new BannedTextViewer(_mockBanWordsReader.Object, false);
 
             // Act
-            string result = textViewer.BannedTextFilter(_someText);
+            var result = textViewer.BannedTextFilter(_someText);
 
             // Assert
             Assert.AreEqual(_someText, result, "Should show banned text");
@@ -45,37 +45,24 @@ namespace ContentConsole.Test.Unit
         public void BannedTextFilter_EnableFilter_NotShowBannedText()
         {
             // Arrange
+            var actualResult = "s##e banned";
             _mockBanWordsReader.Setup(reader => reader.GetBannedList()).Returns(SomeBannedWords);
-            IBannedTextViewer textViewer = new BannedTextViewer(_mockBanWordsReader.Object, true);
+            var textViewer = new BannedTextViewer(_mockBanWordsReader.Object, true);
 
             // Act
-            string result = textViewer.BannedTextFilter(_someText);
+            var result = textViewer.BannedTextFilter(_someText);
 
             // Assert
             Assert.AreNotEqual(_someText, result, "Should not show banned text");
-        }
-
-        [Test]
-        public void BannedTextFilter_ChangeTheTex_ShowChangeText()
-        {
-            // Arrange
-            string actualResult = "s##e banned";
-            _mockBanWordsReader.Setup(reader => reader.GetBannedList()).Returns(SomeBannedWords);
-            IBannedTextViewer textViewer = new BannedTextViewer(_mockBanWordsReader.Object, true);
-
-            // Act
-            string result = textViewer.BannedTextFilter(_someText);
-
-            // Assert
             Assert.AreEqual(actualResult, result, "Should change the text");
         }
 
         [Test]
-        public void BannedTextFilter_GetBannedList_ShowCallTheMethod()
+        public void BannedTextFilter_EnableFilter_CallGetBannedListOnce()
         {
             // Arrange
             _mockBanWordsReader.Setup(reader => reader.GetBannedList()).Returns(SomeBannedWords);
-            IBannedTextViewer textViewer = new BannedTextViewer(_mockBanWordsReader.Object, true);
+            var textViewer = new BannedTextViewer(_mockBanWordsReader.Object, true);
 
             // Act
             textViewer.BannedTextFilter(_someText);

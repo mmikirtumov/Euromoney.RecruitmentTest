@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 
 namespace ContentConsole.Logic
 {
@@ -13,7 +12,7 @@ namespace ContentConsole.Logic
         }
         public int CountOfBannedWords(string content)
         {
-            IEnumerable<string> bannedWords = _banWordsReader.GetBannedList();
+            var bannedWords = _banWordsReader.GetBannedList();
             bannedWords = bannedWords.Select(bannedWord => bannedWord.ToLower()).ToList();
             content = content.ToLower();
             
