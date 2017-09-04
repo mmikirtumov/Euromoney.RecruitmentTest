@@ -1,6 +1,5 @@
 ﻿using ContentConsole.Logic;
 using System;
-using System.Collections.Generic;
 
 namespace ContentConsole
 {
