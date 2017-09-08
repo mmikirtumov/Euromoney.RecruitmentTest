@@ -63,5 +63,33 @@ namespace ContentConsole.Test.Unit
             // Assert
             Assert.AreEqual(0, result, "Should return 0 banned words");
         }
+
+        [Test]
+        public void CountOfBannedWords_TwoOfTheSameBannedWords_ReturnsTwo()
+        {
+            // Arrange
+            _mockBanWordsReader.Setup(reader => reader.GetBannedList()).Returns(SomeBannedWordsWithResult);
+            var textViewer = new BannedWordsCounter(_mockBanWordsReader.Object);
+
+            // Act
+            var result = textViewer.CountOfBannedWords("this this");
+
+            // Assert
+            Assert.AreEqual(2, result, "Should return 2 banned words");
+        }
+
+        [Test]
+        public void CountOfBannedWords_BannedWordContainedInAnotherWord_ReturnsZero()
+        {
+            // Arrange
+            _mockBanWordsReader.Setup(reader => reader.GetBannedList()).Returns(SomeBannedWordsWithResult);
+            var textViewer = new BannedWordsCounter(_mockBanWordsReader.Object);
+
+            // Act
+            var result = textViewer.CountOfBannedWords("something");
+
+            // Assert
+            Assert.AreEqual(0, result, "Should return 2 banned words");
+        }
     }
 }

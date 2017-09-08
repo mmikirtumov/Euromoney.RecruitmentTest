@@ -70,5 +70,20 @@ namespace ContentConsole.Test.Unit
             // Assert
             _mockBanWordsReader.Verify(reader => reader.GetBannedList(), Times.Once, "Should call GetBannedList");
         }
+
+        [Test]
+        public void BannedTextFilter_EnableFilterAndBannedWordContainedWithinAnotherWord_ShowsFullWord()
+        {
+            // Arrange
+            var actualResult = "something banned";
+            _mockBanWordsReader.Setup(reader => reader.GetBannedList()).Returns(SomeBannedWords);
+            var textViewer = new BannedTextViewer(_mockBanWordsReader.Object, true);
+
+            // Act
+            var result = textViewer.BannedTextFilter("something banned");
+
+            // Assert
+            Assert.AreEqual(actualResult, result, "Should not change the text");
+        }
     }
 }
