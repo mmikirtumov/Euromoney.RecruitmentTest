@@ -48,6 +48,8 @@
     <Compile Include="Logic\IBannedTextViewer.cs" />
     <Compile Include="Logic\IBannedWordsCounter.cs" />
     <Compile Include="Logic\IBanWordsReader.cs" />
+    <Compile Include="Logic\IWordRegexProvider.cs" />
+    <Compile Include="Logic\WordRegexProvider.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

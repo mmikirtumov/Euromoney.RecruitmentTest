@@ -18,7 +18,7 @@ namespace ContentConsole.Logic
             var lines = File.ReadAllLines(_filename);
             var result = new List<string>(lines);
 
-            return result.Select(res => res.Trim().ToLower());
+            return result.Select(res => res.Trim().ToLower()).Distinct();
         }
     }
 }

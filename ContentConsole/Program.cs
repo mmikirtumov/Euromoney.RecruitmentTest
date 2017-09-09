@@ -13,20 +13,21 @@ namespace ContentConsole
             var showNegativeInformation = ShouldShowNegativeInformation();
 
             var fileReader = new BanWordsReader(FileLocation);
+            var wordRegexProvider = new WordRegexProvider();
 
-            ShowResult(FilterText(fileReader, content, showNegativeInformation), ShowBadWordsCount(fileReader, content));
+            ShowResult(FilterText(fileReader, wordRegexProvider, content, showNegativeInformation), ShowBadWordsCount(fileReader, wordRegexProvider, content));
         }
 
-        private static int ShowBadWordsCount(IBanWordsReader fileReader, string content)
+        private static int ShowBadWordsCount(IBanWordsReader fileReader, IWordRegexProvider wordRegexProvider, string content)
         {
-            var bannedCounter = new BannedWordsCounter(fileReader);
+            var bannedCounter = new BannedWordsCounter(fileReader, wordRegexProvider);
 
             return bannedCounter.CountOfBannedWords(content);
         }
 
-        private static string FilterText(IBanWordsReader fileReader, string content, bool showBannedText)
+        private static string FilterText(IBanWordsReader fileReader, IWordRegexProvider regexProvider, string content, bool showBannedText)
         {
-            var textView = new BannedTextViewer(fileReader, showBannedText);
+            var textView = new BannedTextViewer(fileReader, regexProvider, showBannedText);
 
             return textView.BannedTextFilter(content);
         }
@@ -40,7 +41,7 @@ namespace ContentConsole
 
         private static bool ShouldShowNegativeInformation()
         {
-            Console.WriteLine("Do want to see the negative text (1-yes, 0 -no):");
+            Console.WriteLine("Do you want to see the negative text (1-yes, 0 -no):");
             var showNegativeInput = Console.ReadLine();
 
             return showNegativeInput == "0";
@@ -53,7 +54,7 @@ namespace ContentConsole
             Console.WriteLine("Total Number of negative words: " + badWordsCount);
 
             Console.WriteLine("Press ANY key to exit.");
-            Console.ReadLine();
+            Console.ReadKey();
         }
     }
 }

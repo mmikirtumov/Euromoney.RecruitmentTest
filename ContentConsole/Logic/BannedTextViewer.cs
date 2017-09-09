@@ -1,34 +1,48 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace ContentConsole.Logic
 {
     public class BannedTextViewer: IBannedTextViewer
     {
-        private readonly bool _enableFitler;
+        private readonly bool _enableFilter;
         private readonly IBanWordsReader _banWordsReader;
+        private readonly IWordRegexProvider _wordRegexProvider;
 
-        public BannedTextViewer(IBanWordsReader banWordsReader, bool enableFitler)
+        public BannedTextViewer(IBanWordsReader banWordsReader, IWordRegexProvider wordRegexProvider, bool enableFilter)
         {
             _banWordsReader = banWordsReader;
-            _enableFitler = enableFitler;
+            _wordRegexProvider = wordRegexProvider;
+            _enableFilter = enableFilter;
         }
 
         public string BannedTextFilter(string content)
         {
-            if (!_enableFitler)
+            if (!_enableFilter)
             {
                 return content;
             }
 
             var bannedWords = _banWordsReader.GetBannedList();
-            var result = content.ToLower();
 
-            return bannedWords.Aggregate(result, (current, banWord) => current.Replace(banWord, DecoreateBanWord(banWord)));
+            return bannedWords.Aggregate(content, func: (current, banWord) => DecoreateBanWord(new Regex(String.Format(_wordRegexProvider.GetWordMatchingRegex(),banWord)).Matches(current), current, banWord));
         }
 
-        private string DecoreateBanWord(string banWord)
+        private string DecoreateBanWord(MatchCollection banWordMatch, string text, string banWord)
         {
-            return banWord.Substring(0,1)+new string('#', banWord.Length-2)+ banWord.Substring(banWord.Length-1,1);
+            foreach (Match matchItem in banWordMatch)
+            {
+                var replace = matchItem.ToString().Replace(banWord, AddBannedSymbols(banWord));
+                text = new Regex(string.Format(_wordRegexProvider.GetBadWordDecoratingRegex(), matchItem.Value)).Replace(text, replace);
+            }
+
+            return text;
+        }
+
+        private string AddBannedSymbols(string banWord)
+        {
+            return banWord.Substring(0, 1) + new string('#', banWord.Length - 2) + banWord.Substring(banWord.Length - 1, 1);
         }
     }
 }
