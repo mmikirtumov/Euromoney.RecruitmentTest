@@ -10,7 +10,7 @@ namespace ContentConsole.Test.Unit
     {
         private string _someText;
         private Mock<IBanWordsReader> _mockBanWordsReader;
-        private readonly IWordRegexProvider _wordRegexProviderord = new WordRegexProvider();
+        private readonly IWordRegexProvider _wordRegexProvider = new WordRegexProvider();
         
         [SetUp]
         public void Init()
@@ -33,7 +33,7 @@ namespace ContentConsole.Test.Unit
         {
             // Arrange
             _mockBanWordsReader.Setup(reader => reader.GetBannedList()).Returns(SomeBannedWords);
-            var textViewer = new BannedTextViewer(_mockBanWordsReader.Object, _wordRegexProviderord, false);
+            var textViewer = new BannedTextViewer(_mockBanWordsReader.Object, _wordRegexProvider, false);
 
             // Act
             var result = textViewer.BannedTextFilter(_someText);
@@ -48,7 +48,7 @@ namespace ContentConsole.Test.Unit
             // Arrange
             var actualResult = "s##e banned";
             _mockBanWordsReader.Setup(reader => reader.GetBannedList()).Returns(SomeBannedWords);
-            var textViewer = new BannedTextViewer(_mockBanWordsReader.Object, _wordRegexProviderord, true);
+            var textViewer = new BannedTextViewer(_mockBanWordsReader.Object, _wordRegexProvider, true);
 
             // Act
             var result = textViewer.BannedTextFilter(_someText);
@@ -64,7 +64,7 @@ namespace ContentConsole.Test.Unit
             // Arrange
             var actualResult = "some banned";
             _mockBanWordsReader.Setup(reader => reader.GetBannedList()).Returns(new List<string>());
-            var textViewer = new BannedTextViewer(_mockBanWordsReader.Object, _wordRegexProviderord, true);
+            var textViewer = new BannedTextViewer(_mockBanWordsReader.Object, _wordRegexProvider, true);
 
             // Act
             var result = textViewer.BannedTextFilter(_someText);
@@ -78,7 +78,7 @@ namespace ContentConsole.Test.Unit
         {
             // Arrange
             _mockBanWordsReader.Setup(reader => reader.GetBannedList()).Returns(SomeBannedWords);
-            var textViewer = new BannedTextViewer(_mockBanWordsReader.Object, _wordRegexProviderord, true);
+            var textViewer = new BannedTextViewer(_mockBanWordsReader.Object, _wordRegexProvider, true);
 
             // Act
             textViewer.BannedTextFilter(_someText);
@@ -93,7 +93,7 @@ namespace ContentConsole.Test.Unit
             // Arrange
             var actualResult = "something banned";
             _mockBanWordsReader.Setup(reader => reader.GetBannedList()).Returns(SomeBannedWords);
-            var textViewer = new BannedTextViewer(_mockBanWordsReader.Object, _wordRegexProviderord, true);
+            var textViewer = new BannedTextViewer(_mockBanWordsReader.Object, _wordRegexProvider, true);
 
             // Act
             var result = textViewer.BannedTextFilter("something banned");
@@ -107,7 +107,7 @@ namespace ContentConsole.Test.Unit
         {
             var actualResult = "s##e; banned";
             _mockBanWordsReader.Setup(reader => reader.GetBannedList()).Returns(SomeBannedWords);
-            var textViewer = new BannedTextViewer(_mockBanWordsReader.Object, _wordRegexProviderord, true);
+            var textViewer = new BannedTextViewer(_mockBanWordsReader.Object, _wordRegexProvider, true);
 
             // Act
             var result = textViewer.BannedTextFilter("some; banned");
@@ -121,7 +121,7 @@ namespace ContentConsole.Test.Unit
         {
             var actualResult = "s##e-very banned";
             _mockBanWordsReader.Setup(reader => reader.GetBannedList()).Returns(SomeBannedWords);
-            var textViewer = new BannedTextViewer(_mockBanWordsReader.Object, _wordRegexProviderord, true);
+            var textViewer = new BannedTextViewer(_mockBanWordsReader.Object, _wordRegexProvider, true);
 
             // Act
             var result = textViewer.BannedTextFilter("some-very banned");
@@ -135,7 +135,7 @@ namespace ContentConsole.Test.Unit
         {
             var actualResult = "l###s";
             _mockBanWordsReader.Setup(reader => reader.GetBannedList()).Returns(SomeBannedWords);
-            var textViewer = new BannedTextViewer(_mockBanWordsReader.Object, _wordRegexProviderord, true);
+            var textViewer = new BannedTextViewer(_mockBanWordsReader.Object, _wordRegexProvider, true);
 
             // Act
             var result = textViewer.BannedTextFilter("let's");
@@ -149,7 +149,7 @@ namespace ContentConsole.Test.Unit
         {
             var actualResult = "l###s4";
             _mockBanWordsReader.Setup(reader => reader.GetBannedList()).Returns(SomeBannedWords);
-            var textViewer = new BannedTextViewer(_mockBanWordsReader.Object, _wordRegexProviderord, true);
+            var textViewer = new BannedTextViewer(_mockBanWordsReader.Object, _wordRegexProvider, true);
 
             // Act
             var result = textViewer.BannedTextFilter("let's4");
@@ -163,7 +163,7 @@ namespace ContentConsole.Test.Unit
         {
             var actualResult = "4l###s";
             _mockBanWordsReader.Setup(reader => reader.GetBannedList()).Returns(SomeBannedWords);
-            var textViewer = new BannedTextViewer(_mockBanWordsReader.Object, _wordRegexProviderord, true);
+            var textViewer = new BannedTextViewer(_mockBanWordsReader.Object, _wordRegexProvider, true);
 
             // Act
             var result = textViewer.BannedTextFilter("4let's");

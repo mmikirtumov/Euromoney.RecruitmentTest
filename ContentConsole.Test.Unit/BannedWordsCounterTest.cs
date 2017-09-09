@@ -10,7 +10,7 @@ namespace ContentConsole.Test.Unit
     {
         private string _someText;
         private Mock<IBanWordsReader> _mockBanWordsReader;
-        private readonly IWordRegexProvider _wordRegexProviderordRegex = new WordRegexProvider();
+        private readonly IWordRegexProvider _wordRegexProvider = new WordRegexProvider();
 
         private IEnumerable<string> SomeBannedWordsWithResult
         {
@@ -42,7 +42,7 @@ namespace ContentConsole.Test.Unit
         {
             // Arrange
             _mockBanWordsReader.Setup(reader => reader.GetBannedList()).Returns(SomeBannedWordsWithResult);
-            var textViewer = new BannedWordsCounter(_mockBanWordsReader.Object, _wordRegexProviderordRegex);
+            var textViewer = new BannedWordsCounter(_mockBanWordsReader.Object, _wordRegexProvider);
 
             // Act
             var result = textViewer.CountOfBannedWords(_someText);
@@ -56,7 +56,7 @@ namespace ContentConsole.Test.Unit
         {
             // Arrange
             _mockBanWordsReader.Setup(reader => reader.GetBannedList()).Returns(SomeBannedWordsWithNoResult);
-            var textViewer = new BannedWordsCounter(_mockBanWordsReader.Object, _wordRegexProviderordRegex);
+            var textViewer = new BannedWordsCounter(_mockBanWordsReader.Object, _wordRegexProvider);
 
             // Act
             var result = textViewer.CountOfBannedWords(_someText);
@@ -70,7 +70,7 @@ namespace ContentConsole.Test.Unit
         {
             // Arrange
             _mockBanWordsReader.Setup(reader => reader.GetBannedList()).Returns(SomeBannedWordsWithResult);
-            var textViewer = new BannedWordsCounter(_mockBanWordsReader.Object, _wordRegexProviderordRegex);
+            var textViewer = new BannedWordsCounter(_mockBanWordsReader.Object, _wordRegexProvider);
 
             // Act
             var result = textViewer.CountOfBannedWords("this this");
@@ -84,7 +84,7 @@ namespace ContentConsole.Test.Unit
         {
             // Arrange
             _mockBanWordsReader.Setup(reader => reader.GetBannedList()).Returns(SomeBannedWordsWithResult);
-            var textViewer = new BannedWordsCounter(_mockBanWordsReader.Object, _wordRegexProviderordRegex);
+            var textViewer = new BannedWordsCounter(_mockBanWordsReader.Object, _wordRegexProvider);
 
             // Act
             var result = textViewer.CountOfBannedWords("something");
@@ -98,7 +98,7 @@ namespace ContentConsole.Test.Unit
         {
             // Arrange
             _mockBanWordsReader.Setup(reader => reader.GetBannedList()).Returns(SomeBannedWordsWithResult);
-            var textViewer = new BannedWordsCounter(_mockBanWordsReader.Object, _wordRegexProviderordRegex);
+            var textViewer = new BannedWordsCounter(_mockBanWordsReader.Object, _wordRegexProvider);
 
             // Act
             var result = textViewer.CountOfBannedWords("this; this");
@@ -112,7 +112,7 @@ namespace ContentConsole.Test.Unit
         {
             // Arrange
             var fileMockBanWords = new BanWordsReader("../../Assets/10BannedWords.txt");
-            var textViewer = new BannedWordsCounter(fileMockBanWords, _wordRegexProviderordRegex);
+            var textViewer = new BannedWordsCounter(fileMockBanWords, _wordRegexProvider);
 
             // Act
             var result = textViewer.CountOfBannedWords("some try");
@@ -126,7 +126,7 @@ namespace ContentConsole.Test.Unit
         {
             // Arrange
             _mockBanWordsReader.Setup(reader => reader.GetBannedList()).Returns(SomeBannedWordsWithResult);
-            var textViewer = new BannedWordsCounter(_mockBanWordsReader.Object, _wordRegexProviderordRegex);
+            var textViewer = new BannedWordsCounter(_mockBanWordsReader.Object, _wordRegexProvider);
 
             // Act
             var result = textViewer.CountOfBannedWords("let's do it");
@@ -140,7 +140,7 @@ namespace ContentConsole.Test.Unit
         {
             // Arrange
             _mockBanWordsReader.Setup(reader => reader.GetBannedList()).Returns(SomeBannedWordsWithResult);
-            var textViewer = new BannedWordsCounter(_mockBanWordsReader.Object, _wordRegexProviderordRegex);
+            var textViewer = new BannedWordsCounter(_mockBanWordsReader.Object, _wordRegexProvider);
 
             // Act
             var result = textViewer.CountOfBannedWords("let's4 do it");
@@ -154,7 +154,7 @@ namespace ContentConsole.Test.Unit
         {
             // Arrange
             _mockBanWordsReader.Setup(reader => reader.GetBannedList()).Returns(SomeBannedWordsWithResult);
-            var textViewer = new BannedWordsCounter(_mockBanWordsReader.Object, _wordRegexProviderordRegex);
+            var textViewer = new BannedWordsCounter(_mockBanWordsReader.Object, _wordRegexProvider);
 
             // Act
             var result = textViewer.CountOfBannedWords("4let's do it");
